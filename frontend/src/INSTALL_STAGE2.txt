@@ -1,0 +1,34 @@
+MEDSECURE AI — PHASE 6.5 / STAGE 2: PUBLIC WEBSITE
+
+This is a SOURCE-ONLY patch based on the uploaded MedSecure_AI_Source_Code.zip.
+
+FILES TO COPY INTO YOUR EXISTING PROJECT:
+  frontend/src/App.jsx      (new public routes)
+  frontend/src/App.css      (public site styling)
+  frontend/src/Portal.jsx   (your previous App.jsx, preserved and minimally adapted)
+
+IMPORTANT: First back up your existing frontend/src/App.jsx.
+Do not replace the backend, .env, database, model weights, or keys.
+
+1. Stop frontend Vite (Ctrl+C).
+2. Copy the three files from this ZIP to medsecure-ai/frontend/src/.
+3. Keep frontend/src/main.jsx, frontend/src/index.css and package.json unchanged.
+4. In VS Code terminal:
+      cd C:\Users\dhwan\OneDrive\Desktop\isc_project\medsecure-ai\frontend
+      npm run build
+      npm run dev
+5. Visit http://localhost:5173/ for the public homepage.
+6. Visit http://localhost:5173/portal for existing login.
+7. Visit http://localhost:5173/portal?mode=register for patient registration.
+8. Verify patient, doctor and admin workflows still work after login.
+
+Routes: /, /about, /how-it-works, /ai-analysis, /security, /contact, /portal.
+No database migration or backend changes are required.
+
+NOTE: Public contact page intentionally does not invent an email address.
+NOTE: All clinical output remains research-only and not a diagnosis.
+NOTE: The X-ray in the hero is a CSS illustration, not a patient image.
+NOTE: Stage 3 will refactor the authenticated patient dashboard.
+
+VALIDATION LIMITATION: npm ci could not complete in the isolated build environment,
+so a frontend build/lint could not be executed here. Run npm run build locally.

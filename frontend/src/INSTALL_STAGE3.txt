@@ -1,0 +1,16 @@
+MedSecure AI — Phase 6.5 Stage 3: Patient Portal
+
+1. Back up frontend/src/Portal.jsx before replacing it.
+2. Copy Portal.jsx, PatientWorkspace.jsx and patient.css from this ZIP into frontend/src/.
+3. Do not replace App.jsx, App.css, any backend files, .env or database files.
+4. In frontend/, run npm run build and then npm run dev.
+5. Sign in as a patient. Test Dashboard, New Analysis, My Scans, My Reports, Profile.
+6. Sign in as doctor and admin and verify their existing screens still work.
+
+Notes:
+- The current session token is held in React memory, so refreshing requires signing in again.
+- The upload progress reflects browser transfer progress, not server-side encryption/processing.
+- Report list is per selected scan/prediction; no aggregate report count is fabricated.
+- This prototype is research-only and must not be used for clinical diagnosis.
+- Doctor access revocation UI and password-change UI are not included; do not imply they work.
+- The project backend and database are unchanged.

@@ -1,0 +1,22 @@
+MedSecure AI — Stage 6A: Physician review workflow
+
+WHAT THIS ADDS
+- Doctor-only clinical review creation, scoped to currently authorized predictions.
+- Authorized patient/doctor read access to physician reviews.
+- Immutable one-review-per-doctor-per-prediction records.
+- Audit event for each new review.
+- Separate clinical notes; existing signed PDFs are not modified.
+
+INSTALL
+1. Back up your current source and database.
+2. Extract ZIP to a temporary directory. Copy backend/app/models/entities.py, backend/app/models/__init__.py, backend/app/api/clinical_reviews.py, backend/app/main.py, and backend/alembic/versions/b61a3d5c7e90_stage6_clinical_reviews.py to matching locations in your project.
+3. Copy frontend/src/ClinicalReviewPanel.jsx and frontend/src/DoctorWorkspace.jsx to matching frontend/src paths.
+4. IMPORTANT: Your previous identity change was applied by standalone SQL, not Alembic. Verify that 'alembic current' reports e99b4406c318 and that users.full_name/username exist before running migration. If Alembic reports a different revision, STOP and share its output.
+5. From backend with .venv activated: python -m alembic upgrade head
+6. Run python -m pytest -q and restart FastAPI (without unrestricted --reload).
+7. From frontend: npm run build && npm run dev
+8. Log in as doctor, open a scan with a prediction, submit physician review. Log in as the authorized patient and verify existing workflows still work.
+
+NOT INCLUDED YET: password changes, account deactivation, notifications, scan comparisons. Those require separate work.
+
+CAUTION: 'Finalized' is a physician review status, not a legally validated medical report or alteration of a cryptographically signed PDF.

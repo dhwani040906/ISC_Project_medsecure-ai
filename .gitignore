@@ -1,0 +1,58 @@
+# Python environment and cache
+backend/.venv/
+**/__pycache__/
+**/.pytest_cache/
+*.pyc
+*.pyo
+
+# Environment variables and credentials
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+.vscode/
+
+# Protected encryption keys
+storage/keys/
+keys/
+
+# Encrypted medical files
+storage/encrypted_images/
+storage/reports/
+
+# Uploaded patient data
+uploads/
+patient_data/
+medical_records/
+
+# AI model checkpoints
+ml/models/*.pt
+ml/models/*.pth
+ml/models/*.ckpt
+
+# Databases and backups
+*.db
+*.sqlite
+*.sqlite3
+*.dump
+*.backup
+backups/
+
+# Logs
+*.log
+logs/
+
+# Operating system
+.DS_Store
+Thumbs.db

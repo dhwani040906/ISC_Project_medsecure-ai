@@ -1,0 +1,3 @@
+cryptography>=44,<48
+Pillow>=11,<13
+python-multipart>=0.0.20,<1

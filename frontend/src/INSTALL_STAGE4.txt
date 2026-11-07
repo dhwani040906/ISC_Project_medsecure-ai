@@ -1,0 +1,13 @@
+MedSecure AI — Stage 4 Doctor Portal
+
+1. Back up your current frontend/src/Portal.jsx.
+2. Copy src/Portal.jsx, src/DoctorWorkspace.jsx and src/doctor.css into your existing frontend/src/ directory.
+3. Do not overwrite PatientWorkspace.jsx, patient.css, App.jsx or App.css.
+4. In frontend/: npm run build; npm run dev.
+5. Start your existing backend, sign in as a doctor, and test Overview, Patients, Image Analysis, Reports, Scan History and Profile.
+
+No backend or database changes are included.
+
+The workspace uses existing protected endpoints: GET /images, GET /images/{id}/download, GET /analysis/{id}/history, POST /analysis/{id}, GET /reports/predictions/{id}, POST /reports/predictions/{id}, GET /reports/{id}/verify, GET /reports/{id}/download, PATCH /auth/me/profile.
+
+Limitations: Clinical comments, physician review status, and notifications are not implemented because corresponding backend APIs are not yet present. AI results are not clinical diagnoses. Patients appear only if their scans are already accessible to the doctor. If the existing GET /images response does not provide patient_id, distinct patients sharing a name may appear merged in the Patients view; patient identity should ultimately be keyed by a server-provided stable authorized patient ID.

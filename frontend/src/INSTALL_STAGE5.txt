@@ -1,0 +1,13 @@
+MedSecure AI — Stage 5 Administrator Portal
+
+IMPORTANT: The uploaded src (2).zip contains a nested src/src directory. The Stage 4 DoctorWorkspace.jsx, doctor.css, and revised Portal.jsx were inside that nested directory. This package flattens those files into the correct src folder and adds Stage 5.
+
+INSTALLATION
+1. Back up your entire existing frontend/src folder.
+2. Copy Portal.jsx, DoctorWorkspace.jsx, doctor.css, AdminWorkspace.jsx, admin.css from this package into medsecure-ai/frontend/src (not frontend/src/src). Replace Portal.jsx when prompted.
+3. Keep your existing App.jsx, App.css, PatientWorkspace.jsx, patient.css, index.css, main.jsx, assets, and other files.
+4. Run: cd frontend && npm run build && npm run dev
+5. Log in as admin; test Overview, Doctor management, Security centre, Audit logs, Account.
+6. Log in as doctor and patient to verify their workspaces still load.
+
+This stage uses existing /api/admin/dashboard and /api/audit endpoints; no backend/database changes. User listing, admin record inventory, role edits, account disabling and password management are not implemented, because current backend APIs do not expose them.
