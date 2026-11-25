@@ -37,14 +37,16 @@ def signing_keys():
 
 def sign_pdf(pdf):
     private, _ = signing_keys()
-    return private.sign(pdf, padding.PSS(mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH), hashes.SHA256())
+    pss_padding = padding.PSS(mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH)
+    return private.sign(pdf, pss_padding, hashes.SHA256())
 
 def verify_pdf(pdf, signature):
     from cryptography.exceptions import InvalidSignature
     public_path = Path(get_settings().report_signing_public_key_path).resolve()
     public = serialization.load_pem_public_key(public_path.read_bytes())
+    pss_padding = padding.PSS(mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH)
     try:
-        public.verify(signature, pdf, padding.PSS(mgf=padding.MGF1(hashes.SHA256()), salt_length=padding.PSS.MAX_LENGTH), hashes.SHA256())
+        public.verify(signature, pdf, pss_padding, hashes.SHA256())
         return True
     except InvalidSignature:
         return False
