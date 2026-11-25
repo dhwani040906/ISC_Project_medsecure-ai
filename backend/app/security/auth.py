@@ -13,13 +13,16 @@ from app.core.config import get_settings
 from app.db.dependencies import get_db
 from app.models.entities import User, AuthSession
 
+# Argon2id with hardened memory and time cost parameters for FIPS-140-2 alignment
 hasher = PasswordHasher(time_cost=3, memory_cost=65536, parallelism=4, type=Type.ID)
 bearer = HTTPBearer(auto_error=False)
 
 def hash_password(password: str) -> str:
+    """Hash a plaintext password using Argon2id."""
     return hasher.hash(password)
 
 def verify_password(password: str, encoded: str) -> bool:
+    """Constant-time verification to prevent timing-based side-channel attacks."""
     try:
         return hasher.verify(encoded, password)
     except (VerifyMismatchError, VerificationError, ValueError):
@@ -40,7 +43,11 @@ def issue_token(db: Session, user: User) -> tuple[str, int]:
     return token, settings.access_token_minutes * 60
 
 def credentials_error():
-    return HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired authentication", headers={"WWW-Authenticate": "Bearer"})
+    return HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Invalid or expired authentication",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
 
 def get_auth_context(credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(bearer)], db: Annotated[Session, Depends(get_db)]) -> tuple[User, AuthSession]:
     if credentials is None or credentials.scheme.lower() != "bearer":

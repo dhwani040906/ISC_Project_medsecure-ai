@@ -32,6 +32,7 @@ def username_available(db, username, exclude_id=None):
         raise HTTPException(409, "Username already in use")
 
 def password_policy(password: str):
+    # Enforce byte-length cap to prevent bcrypt/argon2 DoS via oversized payloads
     if len(password.encode("utf-8")) > 1024:
         raise HTTPException(422, "Password too long")
 
