@@ -66,11 +66,23 @@ def analyze_image(raw: bytes):
         cam = torch.nn.functional.interpolate(cam, size=(224,224), mode='bilinear', align_corners=False)[0,0]
         cam = cam - cam.min()
         cam = cam / cam.max().clamp_min(1e-8)
-        intensity = (cam.numpy()*255).astype(np.uint8)
+        intensity = (cam.numpy() * 255).astype(np.uint8)
         heat = Image.fromarray(intensity, mode='L').resize(source.size, Image.Resampling.BILINEAR)
-        heat_rgb = Image.merge('RGB', (heat, Image.new('L',heat.size,0),Image.new('L',heat.size,0)))
-        overlay = Image.blend(source,heat_rgb,alpha=0.35)
-        out = io.BytesIO(); overlay.save(out, format='PNG')
-        return {'label': ['NORMAL','PNEUMONIA'][chosen], 'confidence':float(probs[chosen].item()), 'probabilities': {'NORMAL':float(probs[0].item()),'PNEUMONIA':float(probs[1].item())}, 'model_version':str(meta['model_version']), 'disclaimer':DISCLAIMER}, out.getvalue()
+        zero_channel = Image.new('L', heat.size, 0)
+        heat_rgb = Image.merge('RGB', (heat, zero_channel, zero_channel))
+        overlay = Image.blend(source, heat_rgb, alpha=0.35)
+        out = io.BytesIO()
+        overlay.save(out, format='PNG')
+        result = {
+            'label': ['NORMAL', 'PNEUMONIA'][chosen],
+            'confidence': float(probs[chosen].item()),
+            'probabilities': {
+                'NORMAL': float(probs[0].item()),
+                'PNEUMONIA': float(probs[1].item()),
+            },
+            'model_version': str(meta['model_version']),
+            'disclaimer': DISCLAIMER,
+        }
+        return result, out.getvalue()
     finally:
         hook.remove()
