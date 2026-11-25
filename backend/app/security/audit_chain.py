@@ -14,12 +14,15 @@ GENESIS = "0" * 64
 LOCK_ID = 82469133
 
 def payload_for(row):
-    return json.dumps({
-        "id": row.id, "actor_id": row.actor_id,
-        "event_type": row.event_type, "result": row.result,
+    record = {
+        "id": row.id,
+        "actor_id": row.actor_id,
+        "event_type": row.event_type,
+        "result": row.result,
         "record_reference": row.record_reference,
         "created_at": row.created_at.isoformat() if row.created_at else None,
-    }, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+    }
+    return json.dumps(record, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
 
 def hash_entry(previous, payload):
     return hashlib.sha256((previous + "\n" + payload).encode("utf-8")).hexdigest()
